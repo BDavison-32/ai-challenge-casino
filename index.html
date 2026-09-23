@@ -369,7 +369,7 @@
       <div class="stations" id="stations"><!-- stations injected --></div>
       <div class="lockbar">
         <button class="btn-primary" id="lockBtn" type="button" disabled>Lock In My Bets</button>
-        <p class="hint" id="lockHint">Place at least one chip to lock in your bets.</p>
+        <p class="hint" id="lockHint">Place all chips to lock in your bets.</p>
         <p class="hint warn" id="voteError"></p>
       </div>
     </div>
@@ -595,12 +595,12 @@
     $("chipMeter").classList.toggle("over", left < 0);
     var lockBtn = $("lockBtn");
     var hint = $("lockHint");
-    if (used > 0 && left >= 0){
+    if (left === 0){
       lockBtn.disabled = false;
-      hint.textContent = left === 0 ? "All 100 chips are on the table. Ready when you are." : left + " chip" + (left===1?"":"s") + " still in your stack — you can leave some unbet.";
+      hint.textContent = "All 100 chips are on the table. Ready when you are.";
     } else {
       lockBtn.disabled = true;
-      hint.textContent = "Place at least one chip to lock in your bets.";
+      hint.textContent = "Place all chips to lock in your bets.";
     }
   }
 
@@ -650,7 +650,7 @@
   // people can never both win a race to claim the same name, even if they click
   // Lock In at the exact same instant.
   function lockIn(){
-    if (totalUsed() <= 0) return;
+    if (totalUsed() !== CHIPS_PER_JUROR) return;
     $("voteError").textContent = "";
     setLockBusy(true);
 
@@ -880,4 +880,3 @@
 
 </body>
 </html>
-
