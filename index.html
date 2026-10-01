@@ -182,6 +182,11 @@
   .smn-label{ font-size:11px; font-weight:700; color:var(--blue-mid); }
   .smn-text{ font-size:12.5px; line-height:1.45; color:var(--text-dark); white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; }
   .smn-empty{ font-size:12.5px; color:var(--text-body); margin:0; font-style:italic; }
+  .smn-poc-block{ padding-bottom:12px; border-bottom:1px solid var(--line); text-align:left; }
+  .smn-poc-block:last-child{ border-bottom:none; padding-bottom:0; }
+  .smn-poc-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:6px; }
+  .smn-poc-name{ font-size:12.5px; font-weight:800; color:var(--text-dark); }
+  .smn-poc-chips{ font-size:11px; font-weight:700; color:var(--blue-mid); white-space:nowrap; }
 
   .stepper{ display:flex; align-items:center; gap:8px; }
   .stepper button{
@@ -488,6 +493,10 @@
         <h2>Thanks for Voting!</h2>
         <p style="font-size:12px;color:var(--text-body);">Juror &mdash; <span class="name" id="rName"></span></p>
         <table id="rTable"></table>
+        <button type="button" class="station-toggle" id="myNotesToggle" aria-expanded="false" style="margin-top:14px;width:100%;">
+          <span>View my notes &amp; scores</span><span class="chev">&#9660;</span>
+        </button>
+        <div class="station-details" id="myNotesDetails" hidden></div>
         <p class="fineprint">You're on the board &mdash; no further action needed. If you made a genuine mistake, message the pit boss directly rather than trying to resubmit.</p>
       </div>
     </div>
@@ -823,6 +832,72 @@
     $("receipt").hidden = false;
     $("rName").textContent = name;
     $("rTable").innerHTML = buildReceiptRows();
+    // Collapse the read-only recap each time the receipt is (re)shown, so a
+    // returning juror doesn't see stale content before it's refetched.
+    var toggle = $("myNotesToggle");
+    var details = $("myNotesDetails");
+    if (toggle && details){
+      toggle.setAttribute("aria-expanded", "false");
+      details.hidden = true;
+      details.innerHTML = "";
+    }
+  }
+
+  // Builds the read-only "my notes & scores" recap shown on the receipt
+  // screen — every POC, the chips that juror placed, and whatever rationale
+  // they wrote, with no way to edit any of it (voting has already locked).
+  function buildMyNotesRecapHtml(){
+    var html = '<p class="station-desc"><em>Read-only — your notes and chip allocations are locked in and can’t be edited.</em></p>';
+    POCS.forEach(function(p){
+      var chipCount = bets[p.id] || 0;
+      html +=
+        '<div class="smn-poc-block">' +
+          '<div class="smn-poc-head">' +
+            '<span class="smn-poc-name">' + escapeHtml(p.name) + '</span>' +
+            '<span class="smn-poc-chips">' + chipCount + ' chip' + (chipCount === 1 ? '' : 's') + '</span>' +
+          '</div>' +
+          stationNotesRecapHtml(p.id) +
+        '</div>';
+    });
+    return html;
+  }
+
+  // Fetches the juror's own saved notes fresh from the database (rather than
+  // trusting whatever happens to be in local state) so this works correctly
+  // both right after voting and after a page reload restores the receipt
+  // screen from localStorage, where notes were never re-fetched locally.
+  function toggleMyNotesRecap(){
+    var btn = $("myNotesToggle");
+    var host = $("myNotesDetails");
+    if (!btn || !host) return;
+    var isOpen = btn.getAttribute("aria-expanded") === "true";
+    if (isOpen){
+      btn.setAttribute("aria-expanded", "false");
+      host.hidden = true;
+      return;
+    }
+    var label = btn.querySelector("span");
+    var originalText = label.textContent;
+    btn.disabled = true;
+    label.textContent = "Loading…";
+    db.ref("notes/" + jurorKey).once("value").then(function(snap){
+      var saved = (snap.exists() ? snap.val() : {}) || {};
+      POCS.forEach(function(p){
+        var pocSaved = saved[p.id] || {};
+        CRITERIA.forEach(function(c){ notes[p.id][c.id] = pocSaved[c.id] || ""; });
+      });
+      host.innerHTML = buildMyNotesRecapHtml();
+      label.textContent = originalText;
+      btn.disabled = false;
+      btn.setAttribute("aria-expanded", "true");
+      host.hidden = false;
+    }).catch(function(){
+      label.textContent = originalText;
+      btn.disabled = false;
+      host.innerHTML = '<p class="smn-empty">Couldn’t load your notes — please check your connection and try again.</p>';
+      host.hidden = false;
+      btn.setAttribute("aria-expanded", "true");
+    });
   }
 
   function showAlreadyVoted(name){
@@ -1115,7 +1190,7 @@
       var raw = localStorage.getItem("acc_voted_v3");
       if (!raw) return false;
       var saved = JSON.parse(raw);
-      bets = saved.bets; jurorName = saved.name;
+      bets = saved.bets; jurorName = saved.name; jurorKey = safeKey(saved.name);
       showReceipt(saved.name);
       return true;
     }catch(e){ return false; }
@@ -1426,6 +1501,7 @@
     $("sitDownBtn").addEventListener("click", trySitDown);
     $("jurorName").addEventListener("keydown", function(e){ if (e.key === "Enter") trySitDown(); });
     $("lockBtn").addEventListener("click", lockIn);
+    $("myNotesToggle").addEventListener("click", toggleMyNotesRecap);
 
     $("continueToChipsBtn").addEventListener("click", continueToChips);
     $("editNotesLink").addEventListener("click", backToNotes);
