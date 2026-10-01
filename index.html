@@ -38,6 +38,10 @@
   }
 
   *{box-sizing:border-box;}
+  /* Stops mobile browsers treating quick repeat taps on small controls (the
+     chip stepper +/- above all) as a double-tap-to-zoom gesture, without
+     disabling pinch-to-zoom for the rest of the page. */
+  button, a, input, .stepper{ touch-action:manipulation; }
   body{
     background: var(--white);
     color:var(--text-dark);
@@ -166,6 +170,19 @@
   .station-name{ font-size:14px; font-weight:700; line-height:1.3; color:var(--text-dark); }
   .station-tag{ font-size:10px; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-body); font-weight:600; }
 
+  .station-toggle{ appearance:none; cursor:pointer; border:1.5px solid var(--line); background:var(--bg-alt); color:var(--blue-mid); font-weight:700; font-size:12px; padding:8px 12px; border-radius:9px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .station-toggle:hover{ border-color:var(--blue-mid); }
+  .station-toggle .chev{ transition:transform 0.15s ease; font-size:10px; }
+  .station-toggle[aria-expanded="true"] .chev{ transform:rotate(180deg); }
+  .station-details{ background:var(--bg-alt); border:1px solid var(--line); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:10px; }
+  .station-desc{ font-size:12.5px; line-height:1.5; color:var(--text-dark); margin:0; }
+  .smn-title{ font-size:10px; text-transform:uppercase; letter-spacing:0.6px; font-weight:800; color:var(--text-body); }
+  .smn-row{ margin-top:6px; }
+  .smn-row + .smn-row{ margin-top:10px; }
+  .smn-label{ font-size:11px; font-weight:700; color:var(--blue-mid); }
+  .smn-text{ font-size:12.5px; line-height:1.45; color:var(--text-dark); white-space:pre-wrap; }
+  .smn-empty{ font-size:12.5px; color:var(--text-body); margin:0; font-style:italic; }
+
   .stepper{ display:flex; align-items:center; gap:8px; }
   .stepper button{
     width:38px; height:38px; border-radius:9px; border:1.5px solid var(--line);
@@ -212,7 +229,8 @@
 
   .notes-modal{ background:var(--white); border:1px solid var(--line); border-radius:18px; padding:28px; max-width:560px; width:100%; text-align:left; box-shadow:var(--card-shadow); max-height:86vh; overflow-y:auto; }
   .notes-modal h3{ font-weight:900; font-size:18px; margin-bottom:4px; color:var(--text-dark); }
-  .notes-modal .nm-tag{ font-size:11px; color:var(--text-body); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:18px; }
+  .notes-modal .nm-tag{ font-size:11px; color:var(--text-body); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:4px; }
+  .notes-modal .nm-autosave{ font-size:11px; color:var(--blue-mid); font-weight:600; margin-bottom:16px; }
   .notes-modal .nm-crit{ margin-bottom:16px; }
   .notes-modal .nm-crit label{ display:block; font-size:12px; font-weight:800; color:var(--blue-mid); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
   .notes-modal .nm-crit .nm-question{ font-size:12.5px; color:var(--text-body); margin-bottom:8px; line-height:1.5; }
@@ -554,10 +572,11 @@
   <div class="notes-modal">
     <h3 id="nmPocName">&mdash;</h3>
     <div class="nm-tag" id="nmPocTag">&mdash;</div>
+    <p class="nm-autosave" id="nmSaveStatus">Autosaves as you type</p>
     <div id="nmCriteriaHost"><!-- criteria blocks injected --></div>
     <p class="err" id="nmErr"></p>
     <div class="modal-row" style="display:flex; gap:10px;">
-      <button class="btn-ghost" id="nmCancel" type="button" style="flex:1;">Cancel</button>
+      <button class="btn-ghost" id="nmCancel" type="button" style="flex:1;">Close</button>
       <button class="btn-primary" id="nmSave" type="button" style="flex:2;">Save Notes</button>
     </div>
   </div>
@@ -592,16 +611,26 @@
   var CHIPS_PER_JUROR = 100;
   var NAVY_DEEP = "#10182F";
 
+  // Order matches the jury presentation schedule (Tue 6 Oct / Wed 7 Oct).
   var POCS = [
-    { id:"tcp",  name:"The Current Predictors",          tag:"UK", color:"#0082DE" },
-    { id:"inn",  name:"Integration Nation",               tag:"UK", color:"#42C8BE" },
-    { id:"ddf",  name:"Data Driven Forensics",            tag:"US", color:"#005499" },
-    { id:"soc",  name:"SOCOTEC ONECONNECT",               tag:"US", color:"#00ACE8" },
-    { id:"sra",  name:"S.R.A Synthèse risque Amiante", tag:"FR", color:"#2A9C94" },
-    { id:"bt",   name:"Better Tender",                    tag:"FR", color:"#4DA6EC" },
-    { id:"apo",  name:"AI Proposal Optimization",         tag:"SP", color:"#003B6B" },
-    { id:"pqg",  name:"Probal.Q – AI Genius Mode",     tag:"IT", color:"#00ACE8" },
-    { id:"mate", name:"MATE",                             tag:"NL", color:"#1F9BC4" }
+    { id:"ddf",  name:"Data Driven Forensics",            tag:"US", color:"#005499",
+      description:"AI that reads construction documents like RFIs and change orders and turns them into structured, source-cited data — cutting document intake time by over 80%." },
+    { id:"soc",  name:"SOCOTEC ONECONNECT",               tag:"US", color:"#00ACE8",
+      description:"An AI platform that connects SOCOTEC's global experts and client history, so teams can find relevant expertise and spot cross-selling opportunities across regions." },
+    { id:"bt",   name:"Better Tender",                    tag:"FR", color:"#4DA6EC",
+      description:"Automates tender responses — building the candidacy file, drafting the technical memoir and pulling CVs/references — to free up time and lift technical scores." },
+    { id:"apo",  name:"AI Proposal Optimization",         tag:"SP", color:"#003B6B",
+      description:"An AI assistant that mines years of past bids to draft technical tender sections and score a proposal's likely chance of winning before it's submitted." },
+    { id:"pqg",  name:"Prolab.Q – AI Genius Mode",      tag:"IT", color:"#00ACE8",
+      description:"Brings generative AI into the lab system to auto-read incoming sample reports, validate results against limits, and prioritise the analysis queue in real time." },
+    { id:"sra",  name:"S.R.A Synthèse risque Amiante", tag:"FR", color:"#2A9C94",
+      description:"Automatically reads and consolidates hundreds of asbestos diagnostic reports into a single risk map, speeding up renovation project decisions." },
+    { id:"tcp",  name:"The Current Predictors",          tag:"UK", color:"#0082DE",
+      description:"A machine learning system that spots sensors drifting out of calibration early, so faults get fixed before they cause bad data or emergency site visits." },
+    { id:"mate", name:"MATE",                             tag:"NL", color:"#1F9BC4",
+      description:"AI that builds a structured damage-claim dossier straight from the inbox, flagging missing information and drafting the report from day one." },
+    { id:"inn",  name:"Integration Nation",               tag:"UK", color:"#42C8BE",
+      description:"AI that reviews acquisition due diligence documents and IRL responses, flagging gaps and risks automatically to speed up go/no-go decisions." }
   ];
 
   var CRITERIA = [
@@ -667,6 +696,23 @@
 
   function totalUsed(){ var t=0; for (var k in bets) t+=bets[k]; return t; }
 
+  // Builds the "your notes" recap shown inside a station's expandable
+  // details panel — read from the local notes object (already loaded/saved
+  // by the time a juror reaches the chip table), no extra Firebase read.
+  function stationNotesRecapHtml(pocId){
+    var rows = "";
+    var any = false;
+    CRITERIA.forEach(function(c){
+      var val = ((notes[pocId] && notes[pocId][c.id]) || "").trim();
+      if (val){
+        any = true;
+        rows += '<div class="smn-row"><div class="smn-label">' + escapeHtml(c.label) + '</div><div class="smn-text">' + escapeHtml(val) + '</div></div>';
+      }
+    });
+    if (!any) return '<p class="smn-empty">You haven’t saved any notes for this POC.</p>';
+    return '<div class="smn-title">Your notes</div>' + rows;
+  }
+
   function renderStations(){
     var host = $("stations");
     host.innerHTML = "";
@@ -682,9 +728,16 @@
             '<div class="station-tag">' + escapeHtml(p.tag) + ' proof of concept</div>' +
           '</div>' +
         '</div>' +
+        '<button type="button" class="station-toggle" aria-expanded="false">' +
+          '<span>What is this? / My notes</span><span class="chev">&#9660;</span>' +
+        '</button>' +
+        '<div class="station-details" hidden>' +
+          '<p class="station-desc">' + escapeHtml(p.description || "") + '</p>' +
+          stationNotesRecapHtml(p.id) +
+        '</div>' +
         '<div class="stepper">' +
           '<button type="button" class="minus" aria-label="Remove 5 chips">&minus;</button>' +
-          '<input type="number" min="0" max="' + CHIPS_PER_JUROR + '" step="5" value="0" data-id="' + p.id + '" aria-label="Chips on ' + escapeHtml(p.name) + '">' +
+          '<input type="number" min="0" max="' + CHIPS_PER_JUROR + '" step="5" value="' + (bets[p.id] || 0) + '" data-id="' + p.id + '" aria-label="Chips on ' + escapeHtml(p.name) + '">' +
           '<button type="button" class="plus" aria-label="Add 5 chips">+</button>' +
         '</div>' +
         '<div class="station-actions">' +
@@ -692,6 +745,14 @@
           '<button type="button" class="clearbtn">Clear the table</button>' +
         '</div>';
       host.appendChild(card);
+
+      var toggle = card.querySelector(".station-toggle");
+      var details = card.querySelector(".station-details");
+      toggle.addEventListener("click", function(){
+        var open = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", open ? "false" : "true");
+        details.hidden = open;
+      });
 
       var input = card.querySelector("input");
       var minus = card.querySelector(".minus");
@@ -871,6 +932,8 @@
     $("continueToChipsBtn").disabled = !allNotesComplete();
   }
 
+  var notesAutosaveTimer = null;
+
   function openNotesModal(pocId){
     activeNotesPocId = pocId;
     var p = null;
@@ -888,13 +951,57 @@
         '<div class="nm-question">' + escapeHtml(c.question) + '</div>' +
         '<textarea data-crit="' + c.id + '" placeholder="Brief rationale…"></textarea>';
       host.appendChild(block);
-      block.querySelector("textarea").value = notes[pocId][c.id] || "";
+      var ta = block.querySelector("textarea");
+      ta.value = notes[pocId][c.id] || "";
+      ta.addEventListener("input", scheduleAutosave);
     });
     $("nmErr").textContent = "";
+    if ($("nmSaveStatus")) $("nmSaveStatus").textContent = "Autosaves as you type";
     $("notesModalBack").hidden = false;
   }
 
+  // Reads whatever is currently sitting in the modal's three textareas and
+  // writes it to Realtime Database, updating local state on success. Shared
+  // by the autosave timer, the explicit Save button, and modal close — so
+  // every way of leaving the modal captures the latest text, not just a
+  // deliberate click on "Save Notes".
+  function writeCurrentModalValues(){
+    if (!activeNotesPocId) return Promise.resolve();
+    if (notesAutosaveTimer){ clearTimeout(notesAutosaveTimer); notesAutosaveTimer = null; }
+    var pocId = activeNotesPocId;
+    var values = {};
+    CRITERIA.forEach(function(c){
+      var ta = $("nmCriteriaHost").querySelector('textarea[data-crit="' + c.id + '"]');
+      values[c.id] = ta ? ta.value.trim() : "";
+    });
+    return db.ref("notes/" + jurorKey + "/" + pocId).set(values).then(function(){
+      CRITERIA.forEach(function(c){ notes[pocId][c.id] = values[c.id]; });
+      renderNotesGrid();
+      updateNotesProgress();
+    });
+  }
+
+  // A juror who never touches "Save Notes" shouldn't lose their rationale —
+  // so every keystroke resets a short timer that writes to the database on
+  // its own, with a small status line in the modal confirming it happened.
+  function scheduleAutosave(){
+    if (notesAutosaveTimer) clearTimeout(notesAutosaveTimer);
+    if ($("nmSaveStatus")) $("nmSaveStatus").textContent = "Saving…";
+    notesAutosaveTimer = setTimeout(function(){
+      writeCurrentModalValues().then(function(){
+        if ($("nmSaveStatus")) $("nmSaveStatus").textContent = "Saved";
+      }).catch(function(){
+        if ($("nmSaveStatus")) $("nmSaveStatus").textContent = "";
+        $("nmErr").textContent = "Couldn't save automatically — please check your connection.";
+      });
+    }, 800);
+  }
+
   function closeNotesModal(){
+    // Flush anything typed in the last moment before the autosave timer was
+    // due to fire, so closing the modal any way — this button, clicking
+    // outside, or after "Save Notes" below — never drops the last few words.
+    writeCurrentModalValues().catch(function(){});
     $("notesModalBack").hidden = true;
     activeNotesPocId = null;
   }
@@ -905,25 +1012,15 @@
   // refuse this write once a vote exists for the same name).
   function saveNotesModal(){
     if (!activeNotesPocId) return;
-    var pocId = activeNotesPocId;
-    var values = {};
-    CRITERIA.forEach(function(c){
-      var ta = $("nmCriteriaHost").querySelector('textarea[data-crit="' + c.id + '"]');
-      values[c.id] = ta ? ta.value.trim() : "";
-    });
-
     var btn = $("nmSave");
     btn.disabled = true;
     btn.textContent = "Saving…";
     $("nmErr").textContent = "";
 
-    db.ref("notes/" + jurorKey + "/" + pocId).set(values).then(function(){
-      CRITERIA.forEach(function(c){ notes[pocId][c.id] = values[c.id]; });
+    writeCurrentModalValues().then(function(){
       btn.disabled = false;
       btn.textContent = "Save Notes";
       closeNotesModal();
-      renderNotesGrid();
-      updateNotesProgress();
     }).catch(function(){
       btn.disabled = false;
       btn.textContent = "Save Notes";
@@ -937,6 +1034,11 @@
     $("table").hidden = false;
     $("chipMeter").hidden = false;
     $("whoName").textContent = jurorName;
+    // Re-render so each station's "What is this? / My notes" panel reflects
+    // whatever was just saved (a juror may have gone back and edited notes
+    // before returning here). The stepper inputs are rebuilt from the current
+    // `bets` values, so any chips already placed are preserved.
+    renderStations();
     updateMeter();
   }
 
@@ -1351,6 +1453,17 @@
         $("lastNameFill").addEventListener("click", function(){ $("jurorName").value = lastName; $("jurorName").focus(); });
       }
     }catch(e){}
+
+    // Mobile browsers rarely fire beforeunload reliably, but they do fire
+    // visibilitychange when the app is backgrounded or the screen locks —
+    // catch a pending autosave then too, so switching apps mid-note doesn't
+    // cost the last few words typed.
+    document.addEventListener("visibilitychange", function(){
+      if (document.hidden && notesAutosaveTimer) writeCurrentModalValues().catch(function(){});
+    });
+    window.addEventListener("beforeunload", function(){
+      if (notesAutosaveTimer) writeCurrentModalValues();
+    });
 
     restoreVotedIfAny();
   });
