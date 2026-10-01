@@ -189,6 +189,43 @@
   .lockbar .hint{ font-size:12px; color:var(--text-body); margin-top:10px; }
   .lockbar .hint.warn{ color:var(--danger); }
 
+  /* ---------- judging criteria reference ---------- */
+  .criteria-ref{ background:var(--bg-alt); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:24px; }
+  .criteria-ref .crit-title{ font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-body); margin-bottom:10px; }
+  .criteria-ref .crit-row{ display:flex; flex-direction:column; gap:10px; }
+  .criteria-ref .crit-item{ font-size:13px; line-height:1.5; color:var(--text-dark); }
+  .criteria-ref .crit-item b{ color:var(--blue-mid); }
+
+  /* ---------- notes phase ---------- */
+  .notes-progress{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .notes-progress .ntext{ font-size:13px; color:var(--text-body); font-weight:600; }
+  .notes-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap:16px; margin-bottom:8px; }
+  .note-card{ background:var(--white); border:1px solid var(--line); border-radius:16px; padding:16px; display:flex; flex-direction:column; gap:12px; box-shadow:var(--card-shadow); border-top:3px solid var(--chip, var(--blue-mid)); }
+  .note-card .nc-top{ display:flex; align-items:flex-start; gap:12px; }
+  .note-card .nc-status{ font-size:10px; text-transform:uppercase; letter-spacing:0.6px; font-weight:700; padding:3px 9px; border-radius:999px; align-self:flex-start; }
+  .note-card .nc-status.empty{ background:var(--bg-alt); color:var(--text-body); border:1px solid var(--line); }
+  .note-card .nc-status.partial{ background:#FFF3DA; color:#9A6B00; border:1px solid #F0D28A; }
+  .note-card .nc-status.done{ background:rgba(66,200,190,0.14); color:#0A7A70; border:1px solid rgba(66,200,190,0.5); }
+  .note-card .nc-btn{ appearance:none; cursor:pointer; border:1.5px solid var(--line); background:var(--bg-alt); color:var(--blue-mid); font-weight:700; font-size:12px; padding:9px 12px; border-radius:9px; }
+  .note-card .nc-btn:hover{ border-color:var(--blue-mid); }
+  .edit-notes-link{ appearance:none; cursor:pointer; border:none; background:none; color:var(--blue-mid); font-weight:700; font-size:12px; padding:0; text-decoration:underline; }
+
+  .notes-modal{ background:var(--white); border:1px solid var(--line); border-radius:18px; padding:28px; max-width:560px; width:100%; text-align:left; box-shadow:var(--card-shadow); max-height:86vh; overflow-y:auto; }
+  .notes-modal h3{ font-weight:900; font-size:18px; margin-bottom:4px; color:var(--text-dark); }
+  .notes-modal .nm-tag{ font-size:11px; color:var(--text-body); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:18px; }
+  .notes-modal .nm-crit{ margin-bottom:16px; }
+  .notes-modal .nm-crit label{ display:block; font-size:12px; font-weight:800; color:var(--blue-mid); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+  .notes-modal .nm-crit .nm-question{ font-size:12.5px; color:var(--text-body); margin-bottom:8px; line-height:1.5; }
+  .notes-modal textarea{ width:100%; min-height:70px; padding:10px 12px; border-radius:9px; border:1.5px solid var(--line); background:var(--bg-alt); color:var(--text-dark); font-family:inherit; font-size:14px; resize:vertical; box-sizing:border-box; }
+  .notes-modal textarea:focus{ outline:2px solid var(--blue-mid); outline-offset:1px; border-color:var(--blue-mid); }
+  .notes-modal .modal-row{ margin-top:8px; }
+  .notes-modal .err{ color:var(--danger); font-size:12px; min-height:16px; margin-bottom:6px; }
+  .field-error{ font-size:12px; color:var(--danger); margin-top:10px; min-height:14px; }
+
+  /* ---------- already voted ---------- */
+  .already-card{ max-width:460px; margin:0 auto; text-align:center; }
+  .already-card p.lead{ color:var(--text-body); font-size:14px; margin-bottom:10px; line-height:1.65; }
+
   /* ---------- receipt ---------- */
   .ticket{ max-width:460px; margin:0 auto; position:relative; text-align:center; overflow:hidden; }
   .ticket .stamp{ font-weight:900; color:var(--blue-green); border:2px solid var(--blue-green); display:inline-block; padding:4px 12px; border-radius:8px; font-size:12px; letter-spacing:1px; transform:rotate(-3deg); margin-bottom:14px; }
@@ -242,6 +279,14 @@
   .board-fill{ position:absolute; inset:0 auto 0 0; border-radius:5px; background:linear-gradient(90deg, var(--blue-dark), var(--blue-light)); }
   .board-row .rval{ text-align:right; font-variant-numeric:tabular-nums; font-weight:700; font-size:13px; color:var(--blue-light); }
   .board-row .rbackers{ grid-column:1 / -1; font-size:10px; color:var(--text-on-navy-dim); margin-top:-4px; }
+  .notes-toggle{ appearance:none; cursor:pointer; border:none; background:none; color:var(--blue-light); font-size:10px; font-weight:700; text-decoration:underline; text-transform:uppercase; letter-spacing:0.5px; padding:0; margin-left:8px; }
+  .board-notes{ grid-column:1 / -1; display:flex; flex-direction:column; gap:8px; margin-top:6px; padding:12px; background:rgba(255,255,255,0.04); border:1px solid var(--line-navy); border-radius:10px; }
+  .board-note{ font-size:11.5px; line-height:1.55; color:var(--text-on-navy-dim); padding-bottom:8px; border-bottom:1px solid var(--line-navy); }
+  .board-note:last-child{ border-bottom:none; padding-bottom:0; }
+  .board-note .bn-name{ font-size:11px; font-weight:800; color:var(--text-on-navy); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:3px; }
+  .board-note .bn-crit b{ color:var(--blue-light); }
+
+  .field-hint{ font-size:12px; color:var(--text-body); margin-top:10px; }
 
   table.roster{ width:100%; border-collapse:collapse; font-size:12px; margin-top:6px; color:var(--text-on-navy); }
   table.roster th{ text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-on-navy-dim); padding:6px 8px; border-bottom:1px solid var(--line-navy); font-weight:700; }
@@ -337,8 +382,9 @@
       <p class="lead-copy">You've got <span class="hl">100 chips</span>. Spread them across the POCs you want to see go through, back one favourite, or hedge across a few &mdash; it's your table. Once you lock in, that's it: no re&#8209;deals.</p>
       <div class="steps">
         <div class="step"><span class="step-num">1</span><span class="step-name">Take your seat</span><span class="step-desc">Tell us who's betting.</span></div>
-        <div class="step"><span class="step-num">2</span><span class="step-name">Place your chips</span><span class="step-desc">Spread 100 chips across the 9 POCs.</span></div>
-        <div class="step"><span class="step-num">3</span><span class="step-name">Lock it in</span><span class="step-desc">One tap and you're on the board &mdash; live.</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-name">Make your notes</span><span class="step-desc">A brief rationale for each POC against 3 criteria.</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-name">Place your chips</span><span class="step-desc">Spread 100 chips across the 9 POCs.</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-name">Lock it in</span><span class="step-desc">One tap and you're on the board &mdash; live.</span></div>
       </div>
     </div>
   </section>
@@ -353,8 +399,46 @@
         <div class="field">
           <label for="jurorName">Your name</label>
           <input type="text" id="jurorName" placeholder="e.g. Alex Rossi" autocomplete="name">
+          <p class="field-hint" id="lastNameHint" hidden>Used on this device before as <button type="button" class="edit-notes-link" id="lastNameFill"></button> &mdash; not you, or forgotten your name? Ask the pit boss to check the roster.</p>
         </div>
         <button class="btn-primary" id="sitDownBtn" type="button">Take Your Seat</button>
+        <p class="field-error" id="sitError"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NOTES PHASE ===================== -->
+  <section id="notesPhase" class="band band-white" hidden>
+    <div class="container">
+      <div class="table-head">
+        <h2>Make Your Notes</h2>
+        <div class="who">Seated as <b id="notesWhoName">&mdash;</b></div>
+      </div>
+      <div class="criteria-ref">
+        <div class="crit-title">Judge every POC against these three criteria</div>
+        <div class="crit-row">
+          <div class="crit-item"><b>Demonstrated value</b> &mdash; Based on the POC evidence, how significant and credible is the potential value for SOCOTEC?</div>
+          <div class="crit-item"><b>Scalability &amp; strategic reach</b> &mdash; To what extent could the solution create value beyond its initial use case, team or country?</div>
+          <div class="crit-item"><b>Confidence in delivery</b> &mdash; Considering the project's maturity, learnings, dependencies and required effort, how confident are you that SOCOTEC can capture the expected value?</div>
+        </div>
+      </div>
+      <p class="lead-copy" style="margin-bottom:18px;">Add a brief rationale for each POC against all three criteria. Save and come back to edit any of these right up until you lock in your chips &mdash; once all nine are complete, you can move on to place your bets.</p>
+      <div class="notes-progress">
+        <span class="ntext" id="notesProgressText">0 of 9 POCs completed</span>
+        <button class="btn-primary" id="continueToChipsBtn" type="button" disabled style="max-width:260px;">Continue to Chip Table</button>
+      </div>
+      <div class="notes-grid" id="notesGrid"><!-- note cards injected --></div>
+    </div>
+  </section>
+
+  <!-- ===================== ALREADY VOTED ===================== -->
+  <section id="alreadyVoted" class="band band-alt" hidden>
+    <div class="container narrow">
+      <div class="card already-card">
+        <div class="suit-row">&spades; &hearts; &diams; &clubs;</div>
+        <h2>You're Already on the Board</h2>
+        <p class="lead" id="alreadyVotedText">This name has already placed bets on this table.</p>
+        <p class="fineprint">If that's a mistake, message the pit boss directly rather than trying to check in again.</p>
       </div>
     </div>
   </section>
@@ -364,7 +448,7 @@
     <div class="container">
       <div class="table-head">
         <h2>Place Your Bets</h2>
-        <div class="who">Seated as <b id="whoName">&mdash;</b></div>
+        <div class="who">Seated as <b id="whoName">&mdash;</b> &nbsp;&middot;&nbsp; <button class="edit-notes-link" id="editNotesLink" type="button">Edit my notes</button></div>
       </div>
       <div class="stations" id="stations"><!-- stations injected --></div>
       <div class="lockbar">
@@ -403,6 +487,14 @@
         <p style="font-size:13px;color:var(--text-on-navy-dim); margin-bottom:14px;" id="parseNote">Loading live results&hellip;</p>
         <button class="btn-ghost on-navy" id="refreshBtn" type="button" style="margin-bottom:20px;">Resync</button>
 
+        <div id="seatedBlock" style="margin-bottom:24px;">
+          <h3 style="font-weight:900; font-size:14px; margin-bottom:4px; color:var(--white);">Jurors Seated <span class="live-dot" aria-hidden="true"></span></h3>
+          <p style="font-size:11px; color:var(--text-on-navy-dim); margin-bottom:8px;">Who's checked in so far, and how far they've got &mdash; useful if someone forgets the name they used.</p>
+          <div class="scroll-x">
+            <table class="roster" id="seatedTable"><tr><td>No jurors seated yet.</td></tr></table>
+          </div>
+        </div>
+
         <div id="resultsBlock" hidden>
           <div class="stat-row">
             <div class="stat-tile"><div class="num" id="statJurors">0</div><div class="lbl">Jurors Tallied</div></div>
@@ -419,8 +511,17 @@
           </div>
 
           <details class="export">
-            <summary>Copy as spreadsheet (CSV)</summary>
+            <summary>Copy votes as spreadsheet (CSV)</summary>
             <textarea class="paste" id="csvBox" readonly style="min-height:90px; margin-top:8px;"></textarea>
+            <button class="btn-ghost on-navy" id="downloadVotesCsv" type="button" style="margin-top:8px;">Download votes.csv</button>
+          </details>
+
+          <h3 style="font-weight:900; font-size:14px; margin-bottom:8px; margin-top:22px; color:var(--white);">Judging Notes</h3>
+          <p style="font-size:11px; color:var(--text-on-navy-dim); margin-bottom:10px;">Every juror's rationale, by POC &mdash; use "Read notes" on the leaderboard above to review one POC at a time, or export everything here for the Exec Board discussion.</p>
+          <details class="export">
+            <summary>Copy judging notes as spreadsheet (CSV)</summary>
+            <textarea class="paste" id="notesCsvBox" readonly style="min-height:90px; margin-top:8px;"></textarea>
+            <button class="btn-ghost on-navy" id="downloadNotesCsv" type="button" style="margin-top:8px;">Download notes.csv</button>
           </details>
         </div>
       </div>
@@ -444,6 +545,20 @@
     <div class="modal-row">
       <button class="btn-ghost" id="passCancel" type="button">Cancel</button>
       <button class="btn-primary" id="passSubmit" type="button" style="flex:2;">Enter</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== NOTES MODAL ===================== -->
+<div class="modal-back" id="notesModalBack" hidden>
+  <div class="notes-modal">
+    <h3 id="nmPocName">&mdash;</h3>
+    <div class="nm-tag" id="nmPocTag">&mdash;</div>
+    <div id="nmCriteriaHost"><!-- criteria blocks injected --></div>
+    <p class="err" id="nmErr"></p>
+    <div class="modal-row" style="display:flex; gap:10px;">
+      <button class="btn-ghost" id="nmCancel" type="button" style="flex:1;">Cancel</button>
+      <button class="btn-primary" id="nmSave" type="button" style="flex:2;">Save Notes</button>
     </div>
   </div>
 </div>
@@ -485,8 +600,14 @@
     { id:"sra",  name:"S.R.A Synthèse risque Amiante", tag:"FR", color:"#2A9C94" },
     { id:"bt",   name:"Better Tender",                    tag:"FR", color:"#4DA6EC" },
     { id:"apo",  name:"AI Proposal Optimization",         tag:"SP", color:"#003B6B" },
-    { id:"pqg",  name:"Prolab.Q – AI Genius Mode",     tag:"IT", color:"#00ACE8" },
+    { id:"pqg",  name:"Probal.Q – AI Genius Mode",     tag:"IT", color:"#00ACE8" },
     { id:"mate", name:"MATE",                             tag:"NL", color:"#1F9BC4" }
+  ];
+
+  var CRITERIA = [
+    { id:"value",    label:"Demonstrated value",             question:"Based on the POC evidence, how significant and credible is the potential value for SOCOTEC?" },
+    { id:"scale",    label:"Scalability & strategic reach",  question:"To what extent could the solution create value beyond its initial use case, team or country?" },
+    { id:"delivery", label:"Confidence in delivery",         question:"Considering the project's maturity, learnings, dependencies and required effort, how confident are you that SOCOTEC can capture the expected value?" }
   ];
 
   function $(id){ return document.getElementById(id); }
@@ -534,6 +655,15 @@
   var bets = {};
   POCS.forEach(function(p){ bets[p.id] = 0; });
   var jurorName = "";
+  var jurorKey = "";
+
+  // notes[pocId][criterionId] = rationale text
+  var notes = {};
+  POCS.forEach(function(p){
+    notes[p.id] = {};
+    CRITERIA.forEach(function(c){ notes[p.id][c.id] = ""; });
+  });
+  var activeNotesPocId = null;
 
   function totalUsed(){ var t=0; for (var k in bets) t+=bets[k]; return t; }
 
@@ -618,24 +748,204 @@
     return rows;
   }
 
-  function showReceipt(name){
+  function hideAllPhases(){
     $("checkin").hidden = true;
+    $("notesPhase").hidden = true;
     $("table").hidden = true;
+    $("receipt").hidden = true;
+    $("alreadyVoted").hidden = true;
     $("chipMeter").hidden = true;
+  }
+
+  function showReceipt(name){
+    hideAllPhases();
     $("receipt").hidden = false;
     $("rName").textContent = name;
     $("rTable").innerHTML = buildReceiptRows();
   }
 
+  function showAlreadyVoted(name){
+    hideAllPhases();
+    $("alreadyVoted").hidden = false;
+    $("alreadyVotedText").textContent = "\"" + name + "\" has already placed bets on this table.";
+  }
+
+  function setSitBusy(busy){
+    var btn = $("sitDownBtn");
+    btn.disabled = busy;
+    btn.textContent = busy ? "Checking…" : "Take Your Seat";
+  }
+
+  // Checking in now does two quick server reads before anything renders:
+  // 1) has this name already voted? -> show the "already on the board" screen,
+  //    so the same person can't come back on a new device/browser and start
+  //    a second notes-then-chips run under a name that's already locked in.
+  // 2) does this name have saved notes from an earlier visit? -> restore them,
+  //    so jurors can leave mid-way through notes and pick back up later.
   function trySitDown(){
     var name = $("jurorName").value.trim();
     if (!name){ $("jurorName").focus(); return; }
+    $("sitError").textContent = "";
     jurorName = name;
-    $("checkin").hidden = true;
+    jurorKey = safeKey(name);
+    setSitBusy(true);
+
+    try{ localStorage.setItem("acc_last_name_v1", name); }catch(e){}
+
+    var voted = false;
+    db.ref("votes/" + jurorKey).once("value").then(function(voteSnap){
+      voted = voteSnap.exists();
+      if (voted) return null;
+      // Tag the notes record with the display name the juror actually typed,
+      // so the Dealer's Office can show a real name rather than the raw key
+      // (and so it stays current if they come back and retype it slightly
+      // differently — the key itself is unaffected either way).
+      db.ref("notes/" + jurorKey + "/displayName").set(name).catch(function(){});
+      return db.ref("notes/" + jurorKey).once("value");
+    }).then(function(notesSnap){
+      setSitBusy(false);
+      if (voted){ showAlreadyVoted(name); return; }
+      if (notesSnap && notesSnap.exists()){
+        var saved = notesSnap.val() || {};
+        POCS.forEach(function(p){
+          var pocSaved = saved[p.id] || {};
+          CRITERIA.forEach(function(c){ notes[p.id][c.id] = pocSaved[c.id] || ""; });
+        });
+      }
+      enterNotesPhase(name);
+    }).catch(function(){
+      setSitBusy(false);
+      $("sitError").textContent = "Couldn't reach the table — please check your connection and try again.";
+    });
+  }
+
+  // ================= NOTES PHASE =================
+  function enterNotesPhase(name){
+    hideAllPhases();
+    $("notesPhase").hidden = false;
+    $("notesWhoName").textContent = name;
+    renderNotesGrid();
+    updateNotesProgress();
+  }
+
+  function noteStatus(pocId){
+    var filled = 0;
+    CRITERIA.forEach(function(c){ if ((notes[pocId][c.id] || "").trim()) filled++; });
+    if (filled === 0) return "empty";
+    if (filled === CRITERIA.length) return "done";
+    return "partial";
+  }
+
+  function allNotesComplete(){
+    return POCS.every(function(p){ return noteStatus(p.id) === "done"; });
+  }
+
+  function renderNotesGrid(){
+    var host = $("notesGrid");
+    host.innerHTML = "";
+    POCS.forEach(function(p){
+      var status = noteStatus(p.id);
+      var label = status === "done" ? "Done" : (status === "partial" ? "In progress" : "Not started");
+      var btnLabel = status === "empty" ? "Add notes" : "Edit notes";
+      var card = document.createElement("div");
+      card.className = "note-card";
+      card.style.setProperty("--chip", p.color);
+      card.innerHTML =
+        '<div class="nc-top">' +
+          '<div class="chip-svg">' + chipSVG(p.color) + '</div>' +
+          '<div style="flex:1;">' +
+            '<div class="station-name">' + escapeHtml(p.name) + '</div>' +
+            '<div class="station-tag">' + escapeHtml(p.tag) + ' proof of concept</div>' +
+          '</div>' +
+          '<span class="nc-status ' + status + '">' + label + '</span>' +
+        '</div>' +
+        '<button type="button" class="nc-btn">' + btnLabel + '</button>';
+      card.querySelector(".nc-btn").addEventListener("click", function(){ openNotesModal(p.id); });
+      host.appendChild(card);
+    });
+  }
+
+  function updateNotesProgress(){
+    var done = POCS.filter(function(p){ return noteStatus(p.id) === "done"; }).length;
+    $("notesProgressText").textContent = done + " of " + POCS.length + " POCs completed";
+    $("continueToChipsBtn").disabled = !allNotesComplete();
+  }
+
+  function openNotesModal(pocId){
+    activeNotesPocId = pocId;
+    var p = null;
+    POCS.forEach(function(x){ if (x.id === pocId) p = x; });
+    if (!p) return;
+    $("nmPocName").textContent = p.name;
+    $("nmPocTag").textContent = p.tag + " proof of concept";
+    var host = $("nmCriteriaHost");
+    host.innerHTML = "";
+    CRITERIA.forEach(function(c){
+      var block = document.createElement("div");
+      block.className = "nm-crit";
+      block.innerHTML =
+        '<label>' + escapeHtml(c.label) + '</label>' +
+        '<div class="nm-question">' + escapeHtml(c.question) + '</div>' +
+        '<textarea data-crit="' + c.id + '" placeholder="Brief rationale…"></textarea>';
+      host.appendChild(block);
+      block.querySelector("textarea").value = notes[pocId][c.id] || "";
+    });
+    $("nmErr").textContent = "";
+    $("notesModalBack").hidden = false;
+  }
+
+  function closeNotesModal(){
+    $("notesModalBack").hidden = true;
+    activeNotesPocId = null;
+  }
+
+  // Saves immediately to Realtime Database so a juror's notes survive a
+  // closed tab or a switch of device, and so they can return and edit them
+  // right up until the moment they lock in their chips (the security rules
+  // refuse this write once a vote exists for the same name).
+  function saveNotesModal(){
+    if (!activeNotesPocId) return;
+    var pocId = activeNotesPocId;
+    var values = {};
+    CRITERIA.forEach(function(c){
+      var ta = $("nmCriteriaHost").querySelector('textarea[data-crit="' + c.id + '"]');
+      values[c.id] = ta ? ta.value.trim() : "";
+    });
+
+    var btn = $("nmSave");
+    btn.disabled = true;
+    btn.textContent = "Saving…";
+    $("nmErr").textContent = "";
+
+    db.ref("notes/" + jurorKey + "/" + pocId).set(values).then(function(){
+      CRITERIA.forEach(function(c){ notes[pocId][c.id] = values[c.id]; });
+      btn.disabled = false;
+      btn.textContent = "Save Notes";
+      closeNotesModal();
+      renderNotesGrid();
+      updateNotesProgress();
+    }).catch(function(){
+      btn.disabled = false;
+      btn.textContent = "Save Notes";
+      $("nmErr").textContent = "Couldn't save — please check your connection and try again.";
+    });
+  }
+
+  function continueToChips(){
+    if (!allNotesComplete()) return;
+    hideAllPhases();
     $("table").hidden = false;
     $("chipMeter").hidden = false;
-    $("whoName").textContent = name;
+    $("whoName").textContent = jurorName;
     updateMeter();
+  }
+
+  function backToNotes(){
+    hideAllPhases();
+    $("notesPhase").hidden = false;
+    $("notesWhoName").textContent = jurorName;
+    renderNotesGrid();
+    updateNotesProgress();
   }
 
   function setLockBusy(busy){
@@ -711,6 +1021,9 @@
 
   // ================= DEALER'S OFFICE =================
   var votesRef = null;
+  var notesRef = null;
+  var latestVotesSnap = null;
+  var latestNotesSnap = null;
 
   function openPassModal(){
     $("modalBack").hidden = false;
@@ -738,10 +1051,7 @@
   }
 
   function openOffice(){
-    $("checkin").hidden = true;
-    $("table").hidden = true;
-    $("receipt").hidden = true;
-    $("chipMeter").hidden = true;
+    hideAllPhases();
     $("office").hidden = false;
   }
 
@@ -749,9 +1059,18 @@
     stopLiveResults();
     auth.signOut();
     $("office").hidden = true;
-    if (!restoreVotedIfAny()){
-      if (jurorName){ $("table").hidden = false; $("chipMeter").hidden = false; }
-      else { $("checkin").hidden = false; }
+    if (restoreVotedIfAny()) return;
+    if (jurorKey){
+      if (allNotesComplete()){
+        $("table").hidden = false; $("chipMeter").hidden = false;
+        $("whoName").textContent = jurorName; updateMeter();
+      } else {
+        $("notesPhase").hidden = false;
+        $("notesWhoName").textContent = jurorName;
+        renderNotesGrid(); updateNotesProgress();
+      }
+    } else {
+      $("checkin").hidden = false;
     }
   }
 
@@ -784,19 +1103,134 @@
     return { rows: rows, totals: totals, backers: backers, pocs: POCS, chips: CHIPS_PER_JUROR };
   }
 
-  // Live — pushes an update the instant any juror locks in, no polling needed.
+  // Live — pushes an update the instant any juror locks in or saves a note,
+  // no polling needed. Votes and notes are two independent listeners so the
+  // Jurors Seated roster and the leaderboard's note panels can update from
+  // whichever one changes, without waiting on the other.
   function startLiveResults(){
     stopLiveResults();
     votesRef = db.ref("votes");
+    notesRef = db.ref("notes");
     votesRef.on("value", function(snap){
+      latestVotesSnap = snap;
       renderResults(snapshotToResults(snap));
-    }, function(err){
-      $("parseNote").textContent = "Couldn't load live results: " + (err && err.message ? err.message : "unknown error");
-      $("parseNote").classList.add("warn");
-    });
+      renderSeatedRoster();
+    }, onResultsError);
+    notesRef.on("value", function(snap){
+      latestNotesSnap = snap;
+      if (latestVotesSnap) renderResults(snapshotToResults(latestVotesSnap));
+      renderSeatedRoster();
+    }, onResultsError);
   }
   function stopLiveResults(){
     if (votesRef){ votesRef.off(); votesRef = null; }
+    if (notesRef){ notesRef.off(); notesRef = null; }
+    latestVotesSnap = null;
+    latestNotesSnap = null;
+  }
+  function onResultsError(err){
+    $("parseNote").textContent = "Couldn't load live results: " + (err && err.message ? err.message : "unknown error");
+    $("parseNote").classList.add("warn");
+  }
+
+  // Groups every juror's saved notes by POC: { pocId: [{name, value, scale, delivery}, ...] }
+  function notesByPocFromSnap(notesSnap){
+    var byPoc = {};
+    POCS.forEach(function(p){ byPoc[p.id] = []; });
+    if (!notesSnap) return byPoc;
+    notesSnap.forEach(function(jurorChild){
+      var key = jurorChild.key;
+      var val = jurorChild.val() || {};
+      var name = val.displayName || key;
+      POCS.forEach(function(p){
+        var c = val[p.id];
+        if (c && (c.value || c.scale || c.delivery)){
+          byPoc[p.id].push({ name: name, value: c.value || "", scale: c.scale || "", delivery: c.delivery || "" });
+        }
+      });
+    });
+    return byPoc;
+  }
+
+  function notesCompletionCount(val){
+    var done = 0;
+    POCS.forEach(function(p){
+      var c = val[p.id];
+      if (c && c.value && c.scale && c.delivery) done++;
+    });
+    return done;
+  }
+
+  // "Jurors Seated" — a combined roster of everyone who has either saved
+  // notes or locked in a vote, so the pit boss can tell someone who's
+  // forgotten which name they checked in under, and can see at a glance who
+  // is still mid-notes during the 5-minute windows.
+  function renderSeatedRoster(){
+    var rows = {};
+    if (latestNotesSnap){
+      latestNotesSnap.forEach(function(child){
+        var key = child.key;
+        var val = child.val() || {};
+        rows[key] = { name: val.displayName || key, notesDone: notesCompletionCount(val), voted: false };
+      });
+    }
+    if (latestVotesSnap){
+      latestVotesSnap.forEach(function(child){
+        var key = child.key;
+        var val = child.val() || {};
+        var existing = rows[key] || {};
+        rows[key] = {
+          name: val.displayName || existing.name || key,
+          notesDone: existing.notesDone != null ? existing.notesDone : POCS.length,
+          voted: true
+        };
+      });
+    }
+    var keys = Object.keys(rows).sort(function(a,b){ return rows[a].name.localeCompare(rows[b].name); });
+    if (keys.length === 0){
+      $("seatedTable").innerHTML = '<tr><td>No jurors seated yet.</td></tr>';
+      return;
+    }
+    var html = '<tr><th>Juror</th><th>Notes</th><th>Chips</th></tr>';
+    keys.forEach(function(k){
+      var r = rows[k];
+      html += '<tr><td>' + escapeHtml(r.name) + '</td><td>' + r.notesDone + ' / ' + POCS.length + '</td><td>' + (r.voted ? 'Locked in' : 'Not yet') + '</td></tr>';
+    });
+    $("seatedTable").innerHTML = html;
+    $("notesCsvBox").value = buildNotesCsv();
+  }
+
+  function buildNotesCsv(){
+    var lines = ['"Juror","POC","Demonstrated value","Scalability & strategic reach","Confidence in delivery"'];
+    if (latestNotesSnap){
+      latestNotesSnap.forEach(function(jurorChild){
+        var key = jurorChild.key;
+        var val = jurorChild.val() || {};
+        var name = val.displayName || key;
+        POCS.forEach(function(p){
+          var c = val[p.id];
+          if (c && (c.value || c.scale || c.delivery)){
+            lines.push([
+              '"' + name.replace(/"/g,'""') + '"',
+              '"' + p.name.replace(/"/g,'""') + '"',
+              '"' + (c.value || "").replace(/"/g,'""') + '"',
+              '"' + (c.scale || "").replace(/"/g,'""') + '"',
+              '"' + (c.delivery || "").replace(/"/g,'""') + '"'
+            ].join(","));
+          }
+        });
+      });
+    }
+    return lines.join("\n");
+  }
+
+  function downloadText(filename, text){
+    var blob = new Blob([text], { type: "text/csv;charset=utf-8;" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
   }
 
   function renderResults(data){
@@ -815,10 +1249,26 @@
     $("statChips").textContent = chipsInPlay;
     $("statLeader").textContent = ranked[0].total > 0 ? ranked[0].p.name : "—";
 
+    var notesByPoc = notesByPocFromSnap(latestNotesSnap);
+
     var boardHtml = "";
     ranked.forEach(function(r){
       var pct = (r.total / maxVal) * 100;
       var color = colorFor(r.p.id);
+      var pocNotes = notesByPoc[r.p.id] || [];
+      var notesPanel = "";
+      if (pocNotes.length){
+        notesPanel = '<div class="board-notes" id="boardNotes-' + r.p.id + '" hidden>' +
+          pocNotes.map(function(n){
+            return '<div class="board-note">' +
+              '<div class="bn-name">' + escapeHtml(n.name) + '</div>' +
+              '<div class="bn-crit"><b>Value:</b> ' + escapeHtml(n.value || '—') + '</div>' +
+              '<div class="bn-crit"><b>Scale:</b> ' + escapeHtml(n.scale || '—') + '</div>' +
+              '<div class="bn-crit"><b>Delivery:</b> ' + escapeHtml(n.delivery || '—') + '</div>' +
+            '</div>';
+          }).join("") +
+        '</div>';
+      }
       boardHtml +=
         '<div class="board-row">' +
           '<div class="rname">' + escapeHtml(r.p.name) + '<span class="rtag">' + escapeHtml(r.p.tag) + '</span></div>' +
@@ -827,10 +1277,21 @@
             '<div class="board-fill" style="width:' + pct + '%; background: linear-gradient(90deg, ' + color + '55, ' + color + ');"></div>' +
           '</div>' +
           '<div class="rval">' + r.total + '</div>' +
-          '<div class="rbackers">backed by ' + r.backers + ' juror' + (r.backers===1?"":"s") + '</div>' +
+          '<div class="rbackers">backed by ' + r.backers + ' juror' + (r.backers===1?"":"s") +
+            ' <button type="button" class="notes-toggle" data-poc="' + r.p.id + '"' + (pocNotes.length ? '' : ' disabled') + '>' +
+              (pocNotes.length ? ('Read notes (' + pocNotes.length + ')') : 'No notes yet') +
+            '</button>' +
+          '</div>' +
+          notesPanel +
         '</div>';
     });
     $("board").innerHTML = boardHtml;
+    Array.prototype.forEach.call($("board").querySelectorAll(".notes-toggle"), function(btn){
+      btn.addEventListener("click", function(){
+        var panel = $("boardNotes-" + btn.getAttribute("data-poc"));
+        if (panel) panel.hidden = !panel.hidden;
+      });
+    });
 
     var rosterRows = "";
     data.rows.slice().sort(function(a,b){ return new Date(b.timestamp) - new Date(a.timestamp); }).forEach(function(r){
@@ -864,6 +1325,12 @@
     $("jurorName").addEventListener("keydown", function(e){ if (e.key === "Enter") trySitDown(); });
     $("lockBtn").addEventListener("click", lockIn);
 
+    $("continueToChipsBtn").addEventListener("click", continueToChips);
+    $("editNotesLink").addEventListener("click", backToNotes);
+    $("nmCancel").addEventListener("click", closeNotesModal);
+    $("nmSave").addEventListener("click", saveNotesModal);
+    $("notesModalBack").addEventListener("click", function(e){ if (e.target === $("notesModalBack")) closeNotesModal(); });
+
     $("pitbossBtn").addEventListener("click", openPassModal);
     $("passCancel").addEventListener("click", closePassModal);
     $("passSubmit").addEventListener("click", checkPass);
@@ -872,6 +1339,18 @@
 
     $("closeOffice").addEventListener("click", closeOffice);
     $("refreshBtn").addEventListener("click", startLiveResults);
+
+    $("downloadVotesCsv").addEventListener("click", function(){ downloadText("ai-challenge-votes.csv", $("csvBox").value); });
+    $("downloadNotesCsv").addEventListener("click", function(){ downloadText("ai-challenge-notes.csv", $("notesCsvBox").value); });
+
+    try{
+      var lastName = localStorage.getItem("acc_last_name_v1");
+      if (lastName){
+        $("lastNameFill").textContent = lastName;
+        $("lastNameHint").hidden = false;
+        $("lastNameFill").addEventListener("click", function(){ $("jurorName").value = lastName; $("jurorName").focus(); });
+      }
+    }catch(e){}
 
     restoreVotedIfAny();
   });
