@@ -163,7 +163,7 @@
   .station{
     background: var(--white); border:1px solid var(--line); border-radius:16px;
     padding:16px; display:flex; flex-direction:column; gap:12px; box-shadow:var(--card-shadow);
-    border-top: 3px solid var(--chip, var(--blue-mid));
+    border-top: 3px solid var(--chip, var(--blue-mid)); min-width:0;
   }
   .station-top{ display:flex; align-items:flex-start; gap:12px; }
   .chip-svg{ flex:0 0 auto; width:38px; height:38px; }
@@ -174,13 +174,13 @@
   .station-toggle:hover{ border-color:var(--blue-mid); }
   .station-toggle .chev{ transition:transform 0.15s ease; font-size:10px; }
   .station-toggle[aria-expanded="true"] .chev{ transform:rotate(180deg); }
-  .station-details{ background:var(--bg-alt); border:1px solid var(--line); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:10px; }
-  .station-desc{ font-size:12.5px; line-height:1.5; color:var(--text-dark); margin:0; }
+  .station-details{ background:var(--bg-alt); border:1px solid var(--line); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:10px; overflow-wrap:anywhere; min-width:0; }
+  .station-desc{ font-size:12.5px; line-height:1.5; color:var(--text-dark); margin:0; overflow-wrap:anywhere; }
   .smn-title{ font-size:10px; text-transform:uppercase; letter-spacing:0.6px; font-weight:800; color:var(--text-body); }
   .smn-row{ margin-top:6px; }
   .smn-row + .smn-row{ margin-top:10px; }
   .smn-label{ font-size:11px; font-weight:700; color:var(--blue-mid); }
-  .smn-text{ font-size:12.5px; line-height:1.45; color:var(--text-dark); white-space:pre-wrap; }
+  .smn-text{ font-size:12.5px; line-height:1.45; color:var(--text-dark); white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; }
   .smn-empty{ font-size:12.5px; color:var(--text-body); margin:0; font-style:italic; }
 
   .stepper{ display:flex; align-items:center; gap:8px; }
@@ -614,7 +614,7 @@
   // Order matches the jury presentation schedule (Tue 6 Oct / Wed 7 Oct).
   var POCS = [
     { id:"ddf",  name:"Data Driven Forensics",            tag:"US", color:"#005499",
-      description:"AI that reads construction documents like RFIs and change orders and turns them into structured, source-cited data — cutting document intake time by over 80%." },
+      description:"AI that reads construction documents like RFIs and change orders and turns them into structured, source-cited data — so teams spend less time on manual extraction and more on analysis." },
     { id:"soc",  name:"SOCOTEC ONECONNECT",               tag:"US", color:"#00ACE8",
       description:"An AI platform that connects SOCOTEC's global experts and client history, so teams can find relevant expertise and spot cross-selling opportunities across regions." },
     { id:"bt",   name:"Better Tender",                    tag:"FR", color:"#4DA6EC",
@@ -624,7 +624,7 @@
     { id:"pqg",  name:"Prolab.Q – AI Genius Mode",      tag:"IT", color:"#00ACE8",
       description:"Brings generative AI into the lab system to auto-read incoming sample reports, validate results against limits, and prioritise the analysis queue in real time." },
     { id:"sra",  name:"S.R.A Synthèse risque Amiante", tag:"FR", color:"#2A9C94",
-      description:"Automatically reads and consolidates hundreds of asbestos diagnostic reports into a single risk map, speeding up renovation project decisions." },
+      description:"Automatically reads and consolidates asbestos diagnostic reports into a single risk map, speeding up renovation project decisions." },
     { id:"tcp",  name:"The Current Predictors",          tag:"UK", color:"#0082DE",
       description:"A machine learning system that spots sensors drifting out of calibration early, so faults get fixed before they cause bad data or emergency site visits." },
     { id:"mate", name:"MATE",                             tag:"NL", color:"#1F9BC4",
